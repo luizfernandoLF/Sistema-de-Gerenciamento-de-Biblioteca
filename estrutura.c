@@ -70,77 +70,52 @@ void adicionarLivro(Lista* l, char* titulo, char* autor, char* ISBN, char* anoPu
 /// @param l
 /// @param ISBN
 /// @return o livro procurado, caso seu ISBN esteja na lista, e NULL caso não esteja
-Livro* buscaISBN(Lista* l, char* ISBN) {
-    if (l->prim == NULL) {
-        printf("Lista vazia\n");
-        return NULL;
-    }
-
-    Livro* at = l->prim;
-    while (at != NULL) {
-        if (strcmp(at->ISBN, ISBN) == 0) {  // Comparar ISBN como string
-            printf("Livro encontrado\nTitulo: %s\nAutor: %s\nISBN: %s\nAno de Publicacao: %s\nStatus: %s\n", 
-                   at->titulo, at->autor, at->ISBN, at->anoPublicacao, 
-                   at->status ? "Disponivel" : "Emprestado");
-            return at;
+bool isISBN(char* input) {
+    int len = strlen(input);
+    for (int i = 0; i < len; i++) {
+        if (input[i] < '0' || input[i] > '9') {
+            return false;  //se tiver alguma [i] que não seja numérico não é ISBN
         }
-        at = at->prox;
     }
-
-    printf("Livro com ISBN %s nao encontrado\n", ISBN);
-    return NULL;
+    return true;
 }
 
-
-/// @brief Busca um livro a partir do nome do seu autor
-/// @param l 
-/// @param autor 
-/// @return NULL, caso não haja livros na lista ou este livro não seja encontrado,
-///         ou retorna o livro encontrado.
-Livro* buscaAutor(Lista* l, char* autor) {
-    if (l->prim == NULL) {
-        printf("Lista vazia\n");
-        return NULL;
-    }
-
-    Livro* at = l->prim; // Atribui a at o primeiro livro da lista
-    while (at != NULL) {
-        if (strcmp(at->autor, autor) == 0) { 
-            printf("Livro encontrado\nTitulo: %s\nAutor: %s\nISBN: %d\nAno de Publicacao: %d\nStatus: %s\n", 
-                    at->titulo, at->autor, at->ISBN, at->anoPublicacao, 
-                    at->status ? "Disponivel" : "Emprestado");
-            return at;
-        }
-        at = at->prox;
-    }
-    
-    printf("Livro de autor %s nao encontrado\n", autor);
-    return NULL;
-}
-
-/// @brief Busca um livro a partir de seu título
-/// @param l 
-/// @param titulo 
-/// @return NULL, caso não haja livros na lista ou este livro não seja encontrado,
-///         ou retorna o livro encontrado.
-Livro* buscaTitulo(Lista* l, char* titulo) {
+// Função de busca unificada (ISBN, título ou autor)
+livro* buscarLivro(lista* l, char* busca) {
     if (l->prim == NULL) {
         printf("Lista vazia :/ \n");
         return NULL;
     }
 
-    Livro* at = l->prim;
+    livro* at = l->prim;
+
+    bool buscaEhISBN = isISBN(busca);  // Verifica se a busca é por ISBN
+
+    // Percorre a lista para procurar o livro correspondente
     while (at != NULL) {
-        if (strcmp(at->titulo, titulo) == 0) {
-            printf("Livro encontrado\nTitulo: %s\nAutor: %s\nISBN: %d\nAno de Publicacao: %d\nStatus: %s\n", 
-                    at->titulo, at->autor, at->ISBN, at->anoPublicacao, 
-                    at->status ? "Disponivel" : "Emprestado");
-            return at;
+        if (buscaEhISBN) {
+            // Se for ISBN, compara o ISBN
+            if (strcmp(at->ISBN, busca) == 0) {
+                printf("Livro encontrado por ISBN:\n");
+                printf("Título: %s\nAutor: %s\nISBN: %s\nAno de publicação: %s\nStatus: %s\n", 
+                       at->titulo, at->autor, at->ISBN, at->anoPublicacao, 
+                       at->status ? "Disponível" : "Emprestado");
+                return at;
+            }
+        } else {
+            // Caso não seja ISBN, compara tanto título quanto autor
+            if (strcmp(at->titulo, busca) == 0 || strcmp(at->autor, busca) == 0) {
+                printf("Livro encontrado por Título ou Autor:\n");
+                printf("Título: %s\nAutor: %s\nISBN: %s\nAno de publicação: %s\nStatus: %s\n", 
+                       at->titulo, at->autor, at->ISBN, at->anoPublicacao, 
+                       at->status ? "Disponível" : "Emprestado");
+                return at;
+            }
         }
         at = at->prox;
     }
 
-    printf("Livro com titulo %s nao encontrado :( \n", titulo);
+    printf("Livro não encontrado.\n");
     return NULL;
 }
 
