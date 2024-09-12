@@ -12,13 +12,12 @@ typedef struct Lista {
     int tamanho;
 } Lista;
 Livro* criaLivro(char* titulo, char* autor, char* ISBN, char* anoPublicacao);
-Livro* criaLista();
+Lista* criaLista();
 void adicionarLivro(Lista* l, char* titulo, char* autor, char* ISBN, char* anoPublicacao);
-Livro* buscaISBN(Lista* l, char* ISBN);
-Livro* buscaAutor(Lista* l, char* autor);
-Livro* buscaTitulo(Lista* l, char* titulo);
+bool isISBN(char* input);
+Livro* buscarLivro(Lista* l, char* busca);
 int checkout(Lista* l, char* ISBN);
 int checkin(Lista* l, char* ISBN);
-void alterarLivro(Lista* l, char* ISBN);
+//void alterarLivro(Lista* l, char* ISBN);
 void destruirLista(Lista* l);
 void exibirLivros(Lista* l);
