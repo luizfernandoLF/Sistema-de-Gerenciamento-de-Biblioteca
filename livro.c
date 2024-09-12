@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <livro.h>
+#include "Livro.h"
 #include <stdbool.h>
+#include "estrutura.h"
 
 bool validarISBN(char* ISBN) {
     if (strlen(ISBN) == 0) {
@@ -10,41 +11,41 @@ bool validarISBN(char* ISBN) {
         return false;
     }
 
-    //verifica se o ISBN tem só números
-    for (int i = 0; i < strlen(ISBN); i++) {
-        if (ISBN[i] < '0' || ISBN[i] > '9') {
-            printf("ISBN invalido. So pode conter numeros\n");
-            return false;
-        }
-    }
+    // //verifica se o ISBN tem só números
+    // for (int i = 0; i < strlen(ISBN); i++) {
+    //     if (ISBN[i] < '0' || ISBN[i] > '9') {
+    //         printf("ISBN invalido. So pode conter numeros\n");
+    //         return false;
+    //     }
+    // }
     
     return true;
 }
 
 
-livro* crialivro(char* titulo, char* autor, char* ISBN, char* anoPublicacao) {
+Livro* criaLivro(char* titulo, char* autor, char* ISBN, char* anoPublicacao) {
     if (!validarISBN(ISBN)){
-        printf("ISBN invalido, livro nao criado\n");
+        printf("ISBN invalido, Livro nao criado\n");
         return NULL;
     }
     
-    livro* l = malloc(sizeof(livro));
+    Livro* l = malloc(sizeof(Livro));
     strcpy(l->titulo, titulo);
     strcpy(l->autor, autor);
     strcpy(l->ISBN, ISBN);
     strcpy(l->anoPublicacao, anoPublicacao);
-    l->status = true;  // Quando o livro está disponível, status = true
+    l->status = true;  // Quando o Livro está disponível, status = true
     l->prox = NULL;
     return l;
 }
 
-void alterarLivro(livro* lv) {
+void alterarLivro(Livro* lv) {
     if (lv == NULL) {
         printf("Livro nao encontrado.\n");
         return;
     }
 
-    // Exibe as informações atuais do livro antes da alteração
+    // Exibe as informações atuais do Livro antes da alteração
     printf("Livro encontrado. Informacoes atuais:\n");
     printf("Título: %s\nAutor: %s\nISBN: %s\nAno de publicacao: %s\nStatus: %s\n", 
            lv->titulo, lv->autor, lv->ISBN, lv->anoPublicacao, 
@@ -77,8 +78,8 @@ void alterarLivro(livro* lv) {
         sprintf(lv->anoPublicacao, "%d", novoAnoPublicacao);  
     }
 
-    //exibe as novas informações do livro
-    printf("\nAs informações do livro foram atualizadas com sucesso!\n");
+    //exibe as novas informações do Livro
+    printf("\nAs informações do Livro foram atualizadas com sucesso!\n");
     printf("Novas informações:\n");
     printf("Título: %s\nAutor: %s\nISBN: %s\nAno de publicação: %s\nStatus: %s\n", 
            lv->titulo, lv->autor, lv->ISBN, lv->anoPublicacao, 
@@ -86,13 +87,13 @@ void alterarLivro(livro* lv) {
 }
 
 
-void exibirLivros(lista* l){
+void exibirLivros(Lista* l){
     if (l->prim == NULL){
-        printf("lista vazia :( \n");
+        printf("Lista vazia :( \n");
         return;
     }
     
-    livro* at = l->prim;
+    Livro* at = l->prim;
 
     while(at!=NULL){
         printf("Titulo: %s\nAutor: %s\nISBN: %s\nAno de publicacao: %s\nStatus: %s\n", 
@@ -102,7 +103,7 @@ void exibirLivros(lista* l){
     }
 }
 
-void exibir1livro(livro* l){
+void exibir1Livro(Livro* l){
     if (l==NULL){
         printf("Livro nao encontado\n");
         return;
