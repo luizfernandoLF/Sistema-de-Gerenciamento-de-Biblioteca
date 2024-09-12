@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <estrutura.h>
 
 typedef struct Livro { // nó
     char titulo[100];
