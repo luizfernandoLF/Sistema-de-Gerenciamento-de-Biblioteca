@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <string.h>
 #include "livro.h"
-#include "estrutura.h"
 
 int main(int argc, char *argv[]) {
     // Verificar se os arquivos foram passados como argumentos
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Variáveis para armazenar os dados lidos
-
+    Lista* lista = criaLista();
     char CMD[30];
     char titulo[100];
     char autor[100];
@@ -35,16 +35,19 @@ int main(int argc, char *argv[]) {
     // Lendo e processando o arquivo
     while (fscanf(infile, "%s %[^;]; %[^;]; %[^;]; %s", CMD, ISBN, titulo, autor, ano) != EOF) {
         if(strcmp(CMD, "ADD") == 0) {
-
-        } else if (strcmp(CMD, "SEARCH" == 0)) {
-
-        } else if (strcmp(CMD, "CHECK_OUT") == 0) {
-
-        } else if (strcmp(CMD, "CHECK_IN") == 0) {
-            
+            adicionarLivro(lista, titulo, autor, ISBN, ano);
         }
+        // } else if (strcmp(CMD, "SEARCH" == 0)) {
+
+        // } else if (strcmp(CMD, "CHECK_OUT") == 0) {
+
+        // } else if (strcmp(CMD, "CHECK_IN") == 0) {
+
+        // } else {
+        //     printf("Comando não encontrado!");
+        // }
         // Escrevendo no arquivo de saída
-        fprintf(outfile, "%s|%s|%s|%s|%s\n", CMD, ISBN, titulo, autor, ano);
+        //fprintf(outfile, "%s|%s|%s|%s|%s\n", CMD, ISBN, titulo, autor, ano);
     }
 
     // Fechando os arquivos
