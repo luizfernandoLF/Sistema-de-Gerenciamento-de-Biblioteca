@@ -83,4 +83,6 @@ int main(int argc, char *argv[]) {
     fclose(outfile);
 
     return 0;
+
+    printf("teste teste");
 }
